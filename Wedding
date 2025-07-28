@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan [Nama Pengantin Wanita] & [Nama Pengantin Pria]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f3ed; /* Krem muda */
+            color: #4a4a4a;
+            text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
+        .invitation-frame {
+            position: relative;
+            max-width: 700px; /* Lebar bingkai undangan */
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 40px 20px;
+            box-sizing: border-box;
+            border: 1px solid #e0d9d0; /* Garis tepi lembut */
+            z-index: 1; /* Pastikan konten di atas bunga */
+            animation: fadeIn 1.5s ease-out; /* Animasi fade-in */
+        }
+
+        /* Animasi fade-in untuk konten utama */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Styling untuk gambar bunga di atas dan bawah */
+        .floral-top, .floral-bottom {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%; /* Lebar gambar bunga */
+            max-width: 850px; /* Sesuaikan agar lebih besar dari frame utama */
+            z-index: 0; /* Di belakang konten */
+        }
+        .floral-top {
+            top: -80px; /* Posisikan agar sedikit di luar frame */
+        }
+        .floral-bottom {
+            bottom: -80px; /* Posisikan agar sedikit di luar frame */
+        }
+        .floral-top img, .floral-bottom img {
+            width: 100%;
+            height: auto;
+            display: block; /* Menghilangkan spasi di bawah gambar */
+        }
+
+        .header-section {
+            padding: 30px 0;
+            margin-bottom: 20px;
+        }
+        .header-section p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            color: #8b6d61; /* Coklat lembut */
+            margin: 0;
+        }
+        .header-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em; /* Ukuran font lebih besar untuk 'Resepsi' */
+            color: #5c4e43; /* Coklat tua */
+            margin: 10px 0 0;
+            position: relative;
+            display: inline-block;
+        }
+        .header-section h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -15px;
+            width: 80%; /* Lebar garis bawah */
+            height: 2px;
+            background-color: #d2b48c; /* Gold/Kuning kecoklatan untuk garis */
+        }
+        .divider-ornament {
+            margin: 40px auto;
+            width: 70%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d2b48c, transparent); /* Efek garis ornamen */
+            position: relative;
+        }
+        .divider-ornament::before, .divider-ornament::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #d2b48c;
+            border-radius: 50%;
+        }
+        .divider-ornament::before { left: 0; }
+        .divider-ornament::after { right: 0; }
+
+
+        .guest-name-section {
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+        .guest-name-section p {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: #6a6a6a;
+        }
+        #guestNamePlaceholder {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #a0522d; /* Coklat tanah */
+            margin-top: 10px;
+            text-transform: capitalize;
+            animation: slideInUp 1s ease-out; /* Animasi muncul dari bawah */
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wedding-details {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fffaf0; /* Hampir putih kekuningan */
+            border-radius: 10px;
+            border: 1px dashed #d2b48c; /* Garis putus-putus seperti di gambar */
+        }
+        .wedding-details p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #5c4e43;
+        }
+        .wedding-details strong {
+            color: #a0522d;
+            font-weight: 600;
+        }
+
+        .details-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .details-grid div {
+            flex: 1;
+            min-width: 280px;
+            padding: 25px;
+            background-color: #fff0f5; /* Pink sangat muda */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            animation: fadeInScale 1s ease-out forwards; /* Animasi muncul dan membesar sedikit */
+            opacity: 0;
+        }
+        .details-grid div:nth-child(1) { animation-delay: 0.3s; }
+        .details-grid div:nth-child(2) { animation-delay: 0.6s; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .details-grid h3 {
+            font-family: 'Playfair Display', serif;
+            color: #a0522d;
+            margin-top: 0;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        .details-grid p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #5c4e43;
+        }
+
+        .call-to-action {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+        .call-to-action .button {
+            display: inline-block;
+            background-color: #a0522d; /* Coklat tanah */
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px; /* Bentuk pil */
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .call-to-action .button:hover {
+            background-color: #8b4513; /* Coklat lebih gelap */
+            transform: translateY(-3px);
+        }
+
+        .closing-remark {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #777;
+        }
+        .closing-remark p {
+            margin: 5px 0;
+        }
+        .closing-remark a {
+            color: #a0522d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .closing-remark a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling untuk Audio YouTube */
+        .youtube-audio {
+            /* Sembunyikan iframe agar hanya audio yang terdengar */
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            position: absolute; /* Posisikan di luar viewport */
+            left: -9999px;
+            top: -9999px;
+            pointer-events: none; /* Mencegah interaksi mouse */
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .invitation-frame {
+                margin: 10px auto;
+                padding: 20px;
+            }
+            .header-section h1 {
+                font-size: 2.5em;
+            }
+            #guestNamePlaceholder {
+                font-size: 1.8em;
+            }
+            .floral-top, .floral-bottom {
+                top: -50px;
+                bottom: -50px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-section h1 {
+                font-size: 2em;
+            }
+            #guestNamePlaceholder {
+                font-size: 1.5em;
+            }
+            .details-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .details-grid div {
+                min-width: unset;
+                width: 95%;
+            }
+            .floral-top, .floral-bottom {
+                top: -30px;
+                bottom: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-frame">
+        <div class="floral-top">
+            <img src="bunga_atas.png" alt="Dekorasi Bunga Atas">
+        </div>
+
+        <div class="header-section">
+            <p>Undangan Pernikahan</p>
+            <h1>Resepsi</h1>
+            <div class="divider-ornament"></div>
+        </div>
+
+        <div class="guest-name-section">
+            <p>Yth. Bapak/Ibu/Saudara/i:</p>
+            <p id="guestNamePlaceholder">Tamu Undangan</p>
+        </div>
+
+        <div class="wedding-details">
+            <p>Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i sekalian untuk hadir dalam acara resepsi pernikahan putra/putri kami:</p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 2em; color: #a0522d; margin: 20px 0;">
+                <strong>[Nama Pengantin Wanita]</strong> &<br>
+                <strong>[Nama Pengantin Pria]</strong>
+            </p>
+            <p>Putra dari Bapak [Nama Ayah Pria] & Ibu [Nama Ibu Pria]</p>
+            <p>Putri dari Bapak [Nama Ayah Wanita] & Ibu [Nama Ibu Wanita]</p>
+        </div>
+
+        <div class="details-grid">
+            <div>
+                <h3>Akad Nikah</h3>
+                <p><strong>[Hari, Tanggal Bulan Tahun Akad]</strong></p>
+                <p>Pukul: <strong>[Waktu Akad] WIB</strong></p>
+                <p>Lokasi: [Alamat Lokasi Akad]</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan [Nama Pengantin Wanita] & [Nama Pengantin Pria]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f3ed; /* Krem muda */
+            color: #4a4a4a;
+            text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
+        .invitation-frame {
+            position: relative;
+            max-width: 700px; /* Lebar bingkai undangan */
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 40px 20px;
+            box-sizing: border-box;
+            border: 1px solid #e0d9d0; /* Garis tepi lembut */
+            z-index: 1; /* Pastikan konten di atas bunga */
+            animation: fadeIn 1.5s ease-out; /* Animasi fade-in */
+        }
+
+        /* Animasi fade-in untuk konten utama */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Styling untuk gambar bunga di atas dan bawah */
+        .floral-top, .floral-bottom {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%; /* Lebar gambar bunga */
+            max-width: 850px; /* Sesuaikan agar lebih besar dari frame utama */
+            z-index: 0; /* Di belakang konten */
+        }
+        .floral-top {
+            top: -80px; /* Posisikan agar sedikit di luar frame */
+        }
+        .floral-bottom {
+            bottom: -80px; /* Posisikan agar sedikit di luar frame */
+        }
+        .floral-top img, .floral-bottom img {
+            width: 100%;
+            height: auto;
+            display: block; /* Menghilangkan spasi di bawah gambar */
+        }
+
+        .header-section {
+            padding: 30px 0;
+            margin-bottom: 20px;
+        }
+        .header-section p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            color: #8b6d61; /* Coklat lembut */
+            margin: 0;
+        }
+        .header-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em; /* Ukuran font lebih besar untuk 'Resepsi' */
+            color: #5c4e43; /* Coklat tua */
+            margin: 10px 0 0;
+            position: relative;
+            display: inline-block;
+        }
+        .header-section h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -15px;
+            width: 80%; /* Lebar garis bawah */
+            height: 2px;
+            background-color: #d2b48c; /* Gold/Kuning kecoklatan untuk garis */
+        }
+        .divider-ornament {
+            margin: 40px auto;
+            width: 70%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d2b48c, transparent); /* Efek garis ornamen */
+            position: relative;
+        }
+        .divider-ornament::before, .divider-ornament::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #d2b48c;
+            border-radius: 50%;
+        }
+        .divider-ornament::before { left: 0; }
+        .divider-ornament::after { right: 0; }
+
+
+        .guest-name-section {
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+        .guest-name-section p {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: #6a6a6a;
+        }
+        #guestNamePlaceholder {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #a0522d; /* Coklat tanah */
+            margin-top: 10px;
+            text-transform: capitalize;
+            animation: slideInUp 1s ease-out; /* Animasi muncul dari bawah */
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wedding-details {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fffaf0; /* Hampir putih kekuningan */
+            border-radius: 10px;
+            border: 1px dashed #d2b48c; /* Garis putus-putus seperti di gambar */
+        }
+        .wedding-details p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #5c4e43;
+        }
+        .wedding-details strong {
+            color: #a0522d;
+            font-weight: 600;
+        }
+
+        .details-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .details-grid div {
+            flex: 1;
+            min-width: 280px;
+            padding: 25px;
+            background-color: #fff0f5; /* Pink sangat muda */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            animation: fadeInScale 1s ease-out forwards; /* Animasi muncul dan membesar sedikit */
+            opacity: 0;
+        }
+        .details-grid div:nth-child(1) { animation-delay: 0.3s; }
+        .details-grid div:nth-child(2) { animation-delay: 0.6s; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .details-grid h3 {
+            font-family: 'Playfair Display', serif;
+            color: #a0522d;
+            margin-top: 0;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        .details-grid p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #5c4e43;
+        }
+
+        .call-to-action {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+        .call-to-action .button {
+            display: inline-block;
+            background-color: #a0522d; /* Coklat tanah */
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px; /* Bentuk pil */
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .call-to-action .button:hover {
+            background-color: #8b4513; /* Coklat lebih gelap */
+            transform: translateY(-3px);
+        }
+
+        .closing-remark {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #777;
+        }
+        .closing-remark p {
+            margin: 5px 0;
+        }
+        .closing-remark a {
+            color: #a0522d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .closing-remark a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling untuk Audio YouTube */
+        .youtube-audio {
+            /* Sembunyikan iframe agar hanya audio yang terdengar */
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            position: absolute; /* Posisikan di luar viewport */
+            left: -9999px;
+            top: -9999px;
+            pointer-events: none; /* Mencegah interaksi mouse */
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .invitation-frame {
+                margin: 10px auto;
+                padding: 20px;
+            }
+            .header-section h1 {
+                font-size: 2.5em;
+            }
+            #guestNamePlaceholder {
+                font-size: 1.8em;
+            }
+            .floral-top, .floral-bottom {
+                top: -50px;
+                bottom: -50px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-section h1 {
+                font-size: 2em;
+            }
+            #guestNamePlaceholder {
+                font-size: 1.5em;
+            }
+            .details-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .details-grid div {
+                min-width: unset;
+                width: 95%;
+            }
+            .floral-top, .floral-bottom {
+                top: -30px;
+                bottom: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-frame">
+        <div class="floral-top">
+            <img src="bunga_atas.png" alt="Dekorasi Bunga Atas">
+        </div>
+
+        <div class="header-section">
+            <p>Undangan Pernikahan</p>
+            <h1>Resepsi</h1>
+            <div class="divider-ornament"></div>
+        </div>
+
+        <div class="guest-name-section">
+            <p>Yth. Bapak/Ibu/Saudara/i:</p>
+            <p id="guestNamePlaceholder">Tamu Undangan</p>
+        </div>
+
+        <div class="wedding-details">
+            <p>Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i sekalian untuk hadir dalam acara resepsi pernikahan putra/putri kami:</p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 2em; color: #a0522d; margin: 20px 0;">
+                <strong>[Nama Pengantin Wanita]</strong> &<br>
+                <strong>[Nama Pengantin Pria]</strong>
+            </p>
+            <p>Putra dari Bapak [Nama Ayah Pria] & Ibu [Nama Ibu Pria]</p>
+            <p>Putri dari Bapak [Nama Ayah Wanita] & Ibu [Nama Ibu Wanita]</p>
+        </div>
+
+        <div class="details-grid">
+            <div>
+                <h3>Akad Nikah</h3>
+                <p><strong>[Hari, Tanggal Bulan Tahun Akad]</strong></p>
+                <p>Pukul: <strong>[Waktu Akad] WIB</strong></p>
+                <p>Lokasi: [Alamat Lokasi Akad]</p>
+            </div>
+            <div>
+                <h3>Resepsi</h3>
+                <p><strong>[Hari, Tanggal Bulan Tahun Resepsi]</strong></p>
+                <p>Pukul: <strong>[Waktu Resepsi] WIB</strong></p>
+                <p>Lokasi: <strong>[Nama Tempat Resepsi]</strong></p>
+                <p>[Alamat Lengkap Resepsi Anda], Tanjung Pandan</p>
+            </div>
+        </div>
+
+        <div class="call-to-action">
+            <p>Kehadiran Anda adalah anugerah terindah bagi kami.</p>
+            <a href="[LINK_Maps_LOKASI_RESEPSI_ANDA]" class="button" target="_blank">Lihat di Google Maps</a>
+        </div>
+
+        <div class="closing-remark">
+            <p>Hormat Kami,</p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5em; color: #a0522d;">[Nama Pengantin Wanita] & [Nama Pengantin Pria]</p>
+            <p>Mohon konfirmasi kehadiran Anda sebelum [Tanggal Konfirmasi Terakhir].</p>
+            <p>Hubungi: <a href="https://wa.me/[NOMOR_WHATSAPP_ANDA_TANPA_SPASI_AWALI_62]" target="_blank">[Nama Kontak / Nomor Telepon]</a></p>
+            <p>Terima Kasih.</p>
+        </div>
+
+        <div class="floral-bottom">
+            <img src="bunga_bawah.png" alt="Dekorasi Bunga Bawah">
+        </div>
+    </div>
+
+    <div class="youtube-audio">
+        <iframe
+            width="0"
+            height="0"
+            src="https://www.youtube.com/embed/jJq3bJjE9m0?autoplay=1&loop=1&playlist=jJq3bJjE9m0&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&fs=0"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <script>
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Ambil nama tamu dari parameter 'to' di URL
+        var guestName = getParameterByName('to');
+        var placeholder = document.getElementById('guestNamePlaceholder');
+
+        // Jika nama tamu ditemukan, tampilkan. Jika tidak, tetap gunakan teks default "Tamu Undangan".
+        if (guestName) {
+            placeholder.textContent = guestName;
+        }
+
+        // --- Tambahan untuk Audio ---
+        // Mendeteksi interaksi pengguna pertama kali untuk mencoba memutar audio
+        // Ini adalah upaya untuk mengatasi kebijakan autoplay browser
+        document.addEventListener('click', function playAudioOnce() {
+            var iframe = document.querySelector('.youtube-audio iframe');
+            if (iframe) {
+                // Mencoba memutar video/audio saat ada klik pertama kali di dokumen
+                // Ini mungkin tidak bekerja di semua browser karena kebijakan autoplay
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+            // Hapus event listener setelah interaksi pertama
+            document.removeEventListener('click', playAudioOnce);
+        });
+
+        // Alternatif: Menambahkan tombol play/pause (lebih ramah pengguna)
+        // Jika Anda ingin tombol play/pause, kita bisa tambahkan.
+        // Beri tahu saya jika Anda lebih suka opsi ini daripada autoplay tersembunyi.
+    </script>
+</body>
+</html>￼Enter            </div>
+            <div>
+                <h3>Resepsi</h3>
+                <p><strong>[Hari, Tanggal Bulan Tahun Resepsi]</strong></p>
+                <p>Pukul: <strong>[Waktu Resepsi] WIB</strong></p>
+                <p>Lokasi: <strong>[Nama Tempat Resepsi]</strong></p>
+                <p>[Alamat Lengkap Resepsi Anda], Tanjung Pandan</p>
+            </div>
+        </div>
+
+        <div class="call-to-action">
+            <p>Kehadiran Anda adalah anugerah terindah bagi kami.</p>
+            <a href="[LINK_Maps_LOKASI_RESEPSI_ANDA]" class="button" target="_blank">Lihat di Google Maps</a>
+        </div>
+
+        <div class="closing-remark">
+            <p>Hormat Kami,</p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.5em; color: #a0522d;">[Nama Pengantin Wanita] & [Nama Pengantin Pria]</p>
+            <p>Mohon konfirmasi kehadiran Anda sebelum [Tanggal Konfirmasi Terakhir].</p>
+            <p>Hubungi: <a href="https://wa.me/[NOMOR_WHATSAPP_ANDA_TANPA_SPASI_AWALI_62]" target="_blank">[Nama Kontak / Nomor Telepon]</a></p>
+            <p>Terima Kasih.</p>
+        </div>
+
+        <div class="floral-bottom">
+            <img src="bunga_bawah.png" alt="Dekorasi Bunga Bawah">
+        </div>
+div>
+
+    <div class="youtube-audio">
+        <iframe
+            width="0"
+            height="0"
+            src="https://www.youtube.com/embed/jJq3bJjE9m0?autoplay=1&loop=1&playlist=jJq3bJjE9m0&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&fs=0"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <script>
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Ambil nama tamu dari parameter 'to' di URL
+        var guestName = getParameterByName('to');
